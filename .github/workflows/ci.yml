@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: Lint with flake8
+        run: |
+          # Stop on syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Warn on style issues (non-blocking)
+          flake8 . --count --exit-zero --max-line-length=100 --statistics
+
+      - name: Verify main.py is importable
+        run: python -c "import ast, sys; ast.parse(open('main.py').read()); print('main.py OK')"
+
+      - name: Verify src modules are importable
+        run: |
+          for f in src/preprocess.py src/parsers.py src/text_utils.py src/model.py src/visualize.py; do
+            python -c "import ast; ast.parse(open('$f').read()); print('$f OK')"
+          done

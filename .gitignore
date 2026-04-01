@@ -1,0 +1,42 @@
+# --- Project-specific directories ---
+data/
+charts/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+*.egg-link
+pip-wheel-metadata/
+
+# --- Virtual environments ---
+.env
+.venv
+env/
+venv/
+ENV/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
